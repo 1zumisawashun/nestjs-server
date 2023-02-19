@@ -11,9 +11,21 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true })); // dtoに定義していないフィールドが送られてきたら省いてくれる
   app.enableCors({
     credentials: true, //cookieベースでjwtのやりとりをするのでつける
-    origin: ['http://localhost:3000'], // whitelistにlocalohost3000を登録する
+    origin: ['http://localhost:3000'], // whitelistにlocalhost3000を登録する
   });
   app.use(cookieParser());
-  await app.listen(3005);
+  app.use(
+    csurf({
+      cookie: {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: false,
+      },
+      value: (req: Request) => {
+        return req.header('csrf-token');
+      },
+    }),
+  );
+  await app.listen(process.env.POST || 3005);
 }
 bootstrap();

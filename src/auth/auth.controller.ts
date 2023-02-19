@@ -21,6 +21,7 @@ export class AuthController {
   getCsrfToken(@Req() req: Request): Csrf {
     return { csrfToken: req.csrfToken() };
   }
+  // これはheaderに入れないとcsrfを突破することができない
 
   @Post('signup')
   signUp(@Body() dto: AuthDto): Promise<Msg> {
