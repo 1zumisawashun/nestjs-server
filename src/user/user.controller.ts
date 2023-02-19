@@ -5,7 +5,7 @@ import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '@prisma/client';
 
-@UseGuards(AuthGuard('jwt')) //ここよくわからなかったので調査
+@UseGuards(AuthGuard('jwt')) //ここよくわからなかったので調査・middlewareに近い
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -20,6 +20,6 @@ export class UserController {
     @Req() req: Request,
     @Body() dto: UpdateUserDto,
   ): Promise<Omit<User, 'hashedPassword'>> {
-    return this.userService.updateUser(req.user.id, dto);
+    return this.userService.updateUser(req.user.id, dto); // ここも同じjwt.strategy.tsのvalidateでreturnしている値にアクセスしている
   }
 }
