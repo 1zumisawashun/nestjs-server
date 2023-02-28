@@ -41,7 +41,7 @@ export class AuthController {
     // サーバー側でcookieを設定する
     res.cookie('access_token', jwt.accessToken, {
       httpOnly: true,
-      secure: false, // 動作確認の時はfalseにする（sameSiteの関係）
+      secure: true, // 動作確認の時はfalseにする（sameSiteの関係）postmanではfalseにする,cookieの送受信で必要
       sameSite: 'none',
       path: '/',
     });
@@ -55,7 +55,7 @@ export class AuthController {
   logout(@Req() req: Request, @Res({ passthrough: true }) res: Response): Msg {
     res.cookie('access_token', '', {
       httpOnly: true,
-      secure: false, // 動作確認の時はfalseにする（sameSiteの関係）
+      secure: true, // 動作確認の時はfalseにする（sameSiteの関係）postmanではfalseにする,cookieの送受信で必要
       sameSite: 'none',
       path: '/',
     });
