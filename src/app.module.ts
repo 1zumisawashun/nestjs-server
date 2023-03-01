@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { TodoModule } from './todo/todo.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
+import { VoteModule } from './vote/vote.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
     UserModule,
     TodoModule,
     PrismaModule,
+    VoteModule,
   ],
   controllers: [AppController],
   providers: [AppService],

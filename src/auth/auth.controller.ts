@@ -17,7 +17,7 @@ import { Csrf, Msg } from './interfaces/auth.interface';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get('/csrf')
+  @Get('csrf')
   getCsrfToken(@Req() req: Request): Csrf {
     return { csrfToken: req.csrfToken() };
   }
@@ -41,7 +41,7 @@ export class AuthController {
     // サーバー側でcookieを設定する
     res.cookie('access_token', jwt.accessToken, {
       httpOnly: true,
-      secure: true, // 動作確認の時はfalseにする（sameSiteの関係）postmanではfalseにする,cookieの送受信で必要
+      secure: false, // 動作確認の時はfalseにする（sameSiteの関係）postmanではfalseにする,cookieの送受信で必要
       sameSite: 'none',
       path: '/',
     });
@@ -55,7 +55,7 @@ export class AuthController {
   logout(@Req() req: Request, @Res({ passthrough: true }) res: Response): Msg {
     res.cookie('access_token', '', {
       httpOnly: true,
-      secure: true, // 動作確認の時はfalseにする（sameSiteの関係）postmanではfalseにする,cookieの送受信で必要
+      secure: false, // 動作確認の時はfalseにする（sameSiteの関係）postmanではfalseにする,cookieの送受信で必要
       sameSite: 'none',
       path: '/',
     });

@@ -19,7 +19,7 @@ async function bootstrap() {
       cookie: {
         httpOnly: true,
         sameSite: 'none',
-        secure: true, // 動作確認の時はfalseにする（sameSiteの関係）postmanではfalseにする,cookieの送受信で必要
+        secure: false, // 動作確認の時はfalseにする（sameSiteの関係）postmanではfalseにする,cookieの送受信で必要
       },
       value: (req: Request) => {
         return req.header('csrf-token');

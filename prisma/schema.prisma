@@ -11,21 +11,44 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email String @unique
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  email          String   @unique
   hashedPassword String
-  nickName String?
-  tasks Task[] // 逆参照のフィールドを作る
+  nickName       String?
+  tasks          Task[] // 逆参照のフィールドを作る。これは取得できないっぽい？
+  votes          Vote[]
+  upvotes        Upvote[]
 }
 
 model Task {
-  id Int @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String
+  description String?
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade) // cascadeを設定して対象のuserが消えたらtaskも消えるようにする
+}
+
+model Vote {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  title String
-  description String?
-  userId Int
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade) // cascadeを設定して対象のuserが消えたらtaskも消えるようにする
+  text      String
+  upvotes   Upvote[]
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Upvote {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  count     Int
+  voteId    Int
+  vote      Vote     @relation(fields: [voteId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
